@@ -42,7 +42,7 @@ class ModuleInfo
     if options.fetch( :namespace, true )
       nested, constants =
         safe_constants( mod ).map do | c |
-          auto  = safe_autoload?( mod ) and next( ConstantInfo.new( c, auto ) )
+          auto  = safe_autoload?( mod, c ) and next( ConstantInfo.new( c, auto ) )
           value = safe_const_get( mod, c ) rescue next
           ConstantInfo.new( c, false, value.class )
         end.

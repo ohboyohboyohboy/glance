@@ -23,13 +23,12 @@ class MethodInfo
 
     visibilities.each do |visibility|
       SafeExtract.send( :"safe_#{ visibility }_instance_methods", target ).each do | name |
-        im =
-          safe_instance_method( target, name ) rescue
-            begin
-              warn("skipping method info extraction for `%s::%s' due to error:" % [clodule, name])
-              warn("  %s: %s" % [$!.class, $!.message])
-              next
-            end
+        im = safe_instance_method( target, name ) rescue next
+            #begin
+            #  warn("skipping method info extraction for `%s::%s' due to error:" % [clodule, name])
+            #  warn("  %s: %s" % [$!.class, $!.message])
+            #  next
+            #end
 
         unless ignorable.include?( im.owner ) and target != im.owner
           methods << new(name, !instance, visibility, im.owner)
