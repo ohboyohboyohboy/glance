@@ -16,6 +16,7 @@ require "hoe"
 Hoe.spec "glance" do
   developer( "Kyle Yetter", "kyle@ohboyohboyohboy.org")
   license "MIT" # this should match the license in the README
+  extra_deps << %w( monocle-print ~>1.0.4 )
 end
 
 # vim: syntax=ruby

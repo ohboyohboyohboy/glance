@@ -13,7 +13,12 @@ module HelperMethods
   end
 
   def g( object = self, *args, &block )
-    puts Glance.at( object, *args, &block )
+    output = MonoclePrint.stdout
+    Glance.at( object, *args ) do | g |
+      g.output = output
+      yield( g ) if block_given?
+      g.render( output )
+    end
     object
   end
 end
