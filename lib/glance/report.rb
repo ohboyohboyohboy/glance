@@ -90,7 +90,7 @@ class Report
 
   def format_module( m )
     text = m.name || m.inspect
-    text = "$#{ text }" if Util.singleton_class?( m )
+    text = "$#{ text }" if SafeExtract.singleton_class?( m )
     return text
   end
 

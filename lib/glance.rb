@@ -22,6 +22,7 @@ module Glance
   autoload :MethodInfo, "glance/method-info"
   autoload :MethodReport, "glance/method-report"
   autoload :Report, "glance/report"
+  autoload :SafeExtract, "glance/safe-extract"
   autoload :TerminalFormatting, "glance/terminal-formatting"
   autoload :Util, "glance/util"
 
@@ -32,5 +33,13 @@ module Glance
     else
       MethodReport.new( object, *args, &block )
     end
+  end
+
+  def self.method_report( object, *args, &block )
+    MethodReport.new( object, *args, &block )
+  end
+
+  def self.module_report( object, *args, &block )
+    ModuleReport.new( object, *args, &block )
   end
 end

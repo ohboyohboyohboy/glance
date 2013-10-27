@@ -4,7 +4,7 @@
 module Glance
 class MethodReport < Report
   def analyze( options = {} )
-    extract_module( Util.singleton_class( object ), options )
+    extract_module( SafeExtract.singleton_class_of( object ), options )
   end
 
   def build_content( top )

@@ -19,8 +19,10 @@ ModuleInfo =
   )
 
 class ModuleInfo
+  extend SafeExtract
+
   def self.extract( mod, options = {} )
-    sclass = Util.singleton_class( mod )
+    sclass = singleton_class_of( mod )
     name   = mod.name || mod.inspect
 
     if options.fetch( :relationships, true )
@@ -34,14 +36,14 @@ class ModuleInfo
       imeths   = MethodInfo.extract_from( mod, options.merge( instance: true ) )
       cmeths   = MethodInfo.extract_from( mod, options.merge( instance: false ) )
     else
-      imethds, cmeths = [], []
+      imeths, cmeths = [], []
     end
 
     if options.fetch( :namespace, true )
       nested, constants =
-        mod.constants.map do | c |
-          auto  = mod.autoload?( c ) and next( ConstantInfo.new( c, auto ) )
-          value = mod.const_get( c ) rescue next
+        safe_constants( mod ).map do | c |
+          auto  = safe_autoload?( mod ) and next( ConstantInfo.new( c, auto ) )
+          value = safe_const_get( mod, c ) rescue next
           ConstantInfo.new( c, false, value.class )
         end.
         compact.
@@ -60,14 +62,14 @@ class ModuleInfo
       constants,
       cmeths,
       imeths,
-      Util.singleton_class?(mod)
+      singleton_class?(mod)
     )
   end
 
   def self.extract_ancestry( mod )
     ancestry   = [ mod ]
     inclusions = []
-    mod.ancestors[1..-1].each do |a|
+    safe_ancestors( mod )[ 1..-1 ].each do | a |
       if a.is_a?( Class )
         ancestry << a
       else

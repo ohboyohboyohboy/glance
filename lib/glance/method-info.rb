@@ -11,18 +11,20 @@ MethodInfo =
   )
 
 class MethodInfo
+  extend SafeExtract
+
   def self.extract_from( clodule, options = {} )
-    instance     = options.fetch( :instance, clodule.is_a?( ::Module ) )
+    instance     = options.fetch( :instance, ::Module === clodule )
     visibilities = options.fetch( :visibilities ) { [:public, :protected, :private] }
     filters      = options.fetch( :filters ) { [] }
     ignorable    = options.fetch( :ignorable_modules ) { [] }
-    target       = instance ? clodule : Util.singleton_class( clodule )
+    target       = instance ? clodule : singleton_class_of( clodule )
     methods      = []
 
     visibilities.each do |visibility|
-      Array(target.send(:"#{visibility}_instance_methods")).each do |name|
+      SafeExtract.send( :"safe_#{ visibility }_instance_methods", target ).each do | name |
         im =
-          target.instance_method(name) rescue
+          safe_instance_method( target, name ) rescue
             begin
               warn("skipping method info extraction for `%s::%s' due to error:" % [clodule, name])
               warn("  %s: %s" % [$!.class, $!.message])
@@ -75,7 +77,7 @@ class MethodInfo
   end
 
   def to_unbound_method
-    owner.instance_method(name)
+    SafeExtract.safe_instance_method( owner, name )
   end
 
   def inspect

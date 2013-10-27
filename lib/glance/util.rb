@@ -6,21 +6,8 @@
 
 module Glance
 module Util
-  TerminalEscapes = MonoclePrint::TerminalEscapes
-
+  
   module_function
-
-  def terminal_wrap( escape_name, string )
-    "#{ TerminalEscapes.send( escape_name ) }#{ string }#{ TerminalEscapes.clear_attr }"
-  end
-
-  def singleton_class( object = self )
-    object.singleton_class rescue object.class
-  end
-
-  def singleton_class?( klass )
-    klass.ancestors.first != klass
-  end
 
   def symbolize_keys( hash )
     symbolized = {}
