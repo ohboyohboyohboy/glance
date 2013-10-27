@@ -1,0 +1,8 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/glance
+lib/glance.rb
+test/test_glance.rb
