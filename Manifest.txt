@@ -3,14 +3,8 @@ History.txt
 Manifest.txt
 Rakefile
 README.txt
-lib/glance/report/colorizer.rb
-lib/glance/report/module-report.rb
-lib/glance/report/method-report.rb
 lib/glance/report/content-area.rb
 lib/glance/report/configuration.rb
-lib/glance/report/color/ansi.rb
-lib/glance/report/color/xterm.rb
-lib/glance/report/color/konsole.rb
 lib/glance/helper-methods.rb
 lib/glance/module-report.rb
 lib/glance/method-report.rb
@@ -19,6 +13,7 @@ lib/glance/report.rb
 lib/glance/color-sequence.rb
 lib/glance/module-info.rb
 lib/glance/import.rb
+lib/glance/safe-extract.rb
 lib/glance/color-sequence/ansi.rb
 lib/glance/color-sequence/xterm.rb
 lib/glance/color-sequence/konsole.rb
