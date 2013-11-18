@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 # encoding: utf-8
 #
+PROJECT_NAME = 'glance'
 
 require "rubygems"
 require "hoe"
@@ -13,7 +14,7 @@ require "hoe"
 # Hoe.plugin :rcov
 # Hoe.plugin :rubyforge
 
-Hoe.spec "glance" do
+Hoe.spec PROJECT_NAME do
   developer( "Kyle Yetter", "kyle@ohboyohboyohboy.org")
   license "MIT" # this should match the license in the README
   extra_deps << %w( monocle-print ~>1.1.0 )
