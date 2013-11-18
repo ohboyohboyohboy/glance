@@ -32,7 +32,11 @@ module SafeExtract
       method  = method.to_sym
       unbound = source_module.instance_method( method )
       define_method( :"safe_#{ method }" ) do |object, *args|
-        unbound.bind( object ).call( *args )
+        begin
+          unbound.bind( object ).call( *args )
+        rescue TypeError
+          object.respond_to?( method ) ? object.send( method, *args ) : raise
+        end
       end
       module_function :"safe_#{ method }"
     end

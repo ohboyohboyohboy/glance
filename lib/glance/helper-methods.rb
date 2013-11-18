@@ -19,7 +19,7 @@ module HelperMethods
       yield( g ) if block_given?
       g.render( output )
     end
-    object
+    nil
   end
 end
 end

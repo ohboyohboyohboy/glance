@@ -44,7 +44,7 @@ class Report
 
   def add_filter( arg = nil, positive = true, &block )
     if block_given?
-      positive = args
+      positive = arg
       matcher  = block
     else
       matcher  = arg
