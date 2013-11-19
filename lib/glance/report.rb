@@ -42,7 +42,7 @@ class Report
     yield( self ) if block_given?
   end
 
-  def add_filter( arg = nil, positive = true, &block )
+  def add_filter( arg = true, positive = true, &block )
     if block_given?
       positive = arg
       matcher  = block

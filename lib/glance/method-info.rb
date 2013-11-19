@@ -17,6 +17,7 @@ class MethodInfo
     instance     = options.fetch( :instance, ::Module === clodule )
     visibilities = options.fetch( :visibilities ) { [:public, :protected, :private] }
     filters      = options.fetch( :filters ) { [] }
+    
     ignorable    = options.fetch( :ignorable_modules ) { [] }
     target       = instance ? clodule : singleton_class_of( clodule )
     methods      = []
