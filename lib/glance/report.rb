@@ -118,11 +118,21 @@ class Report
     when Module
       add_filter { |m| m.owner <= option }
     when Regexp
-      add_filter { |m| m.name.to_s =~ option }
+      add_regexp_filter(option)
     when *ColorSequence.registered_types
       configuration[ :escape_style ] = option
     else
       super
+    end
+  end
+
+  def add_regexp_filter(regexp)
+    case regexp.to_s
+    when %r<^(\(\?[-\w]+:)!(.*\))$>m
+      pattern = Regexp.new("#{ $1 }#{ $2 }")
+      add_filter { |m| m.name.to_s !~ pattern }
+    else
+      add_filter { |m| m.name.to_s =~ regexp }
     end
   end
 
