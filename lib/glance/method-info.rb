@@ -7,7 +7,8 @@ MethodInfo =
     :name,
     :singleton,
     :visibility,
-    :owner
+    :owner,
+    :source_location
   )
 
 class MethodInfo
@@ -17,7 +18,7 @@ class MethodInfo
     instance     = options.fetch( :instance, ::Module === clodule )
     visibilities = options.fetch( :visibilities ) { [:public, :protected, :private] }
     filters      = options.fetch( :filters ) { [] }
-    
+
     ignorable    = options.fetch( :ignorable_modules ) { [] }
     target       = instance ? clodule : singleton_class_of( clodule )
     methods      = []
@@ -32,7 +33,8 @@ class MethodInfo
             #end
 
         unless ignorable.include?( im.owner ) and target != im.owner
-          methods << new(name, !instance, visibility, im.owner)
+          location = im.source_location rescue []
+          methods << new(name, !instance, visibility, im.owner, location)
         end
       end
     end
@@ -41,6 +43,17 @@ class MethodInfo
       matcher, positive = filter
       positive ? list.select(&matcher) : list.reject(&matcher)
     end.sort_by { |m| m.name }
+  end
+
+  def file
+    if file = (source_location && source_location.first)
+      file = file.to_s
+      file = File.file?(file) ? File.expand_path(file) : file
+    end
+  end
+
+  def line
+    source_location && source_location.last
   end
 
   def private?

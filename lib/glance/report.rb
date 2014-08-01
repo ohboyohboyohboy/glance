@@ -95,11 +95,15 @@ class Report
   end
 
   def format_method_list( methods )
-    colorize_list_by( methods, &:owner )
+    colorize_list_by(methods, &:owner)
   end
 
   def format_constant_list( constants )
-    colorize_list_by( constants ) { |c| c.type || 'a' }
+    colorize_list_by(constants) { |c| c.type || 'a' }
+  end
+
+  def format_file_list(files)
+    files.map { |file| shorten_file_path(file) }
   end
 
   def colorize_list_by( list )
@@ -142,6 +146,17 @@ class Report
       entity < Exception ? 'error' : 'class'
     when Module then 'module'
     else entity.class.to_s
+    end
+  end
+
+  def shorten_file_path(path)
+    path =~ load_path_rx and $'.to_s
+  end
+
+  def load_path_rx
+    @load_path_rx ||= begin
+      path_rx = Regexp.union($LOAD_PATH.map { |d| File.expand_path(d) })
+      /^(#{ path_rx })\//
     end
   end
 end

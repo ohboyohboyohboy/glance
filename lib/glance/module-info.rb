@@ -4,6 +4,8 @@
 # author: Kyle Yetter
 #
 
+require 'set'
+
 module Glance
 ModuleInfo =
   Struct.new(
@@ -79,6 +81,15 @@ class ModuleInfo
     return [ ancestry, inclusions ]
   end
 
+
+  def files
+    counts =
+      all_methods.each_with_object(Hash.new(0)) do |m, c|
+        file = m.file and c[file] += 1
+      end
+    counts.keys.sort_by { |file| -counts[file] }
+  end
+
   def all_methods
     class_methods + instance_methods
   end
@@ -90,6 +101,5 @@ class ModuleInfo
   def singleton?
     !!singleton
   end
-
 end
 end

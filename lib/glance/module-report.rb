@@ -5,7 +5,8 @@ module Glance
 class ModuleReport < Report
 
   define_option :relationships?, true
-  define_option :namespace?, proc { |report| report.target_module != ::Module }
+  define_option :files?, true
+  define_option :namespace?, ->(report) { report.target_module != ::Module }
   define_option :methods?, true
 
   alias_method :target_module, :object
@@ -14,8 +15,8 @@ class ModuleReport < Report
     "#{ entity_type( target_module ) } #{ format_module( target_module ) }"
   end
 
-  def analyze( options = {} )
-    ModuleInfo.extract( object, extraction_options( options ) )
+  def analyze(options = {})
+    ModuleInfo.extract(object, extraction_options(options))
   end
 
   def extraction_options( options = {} )
@@ -43,6 +44,12 @@ class ModuleReport < Report
           section.line( "Ancestry:", inherit_chain )
           section.list( "Included Modules", format_module_list(info.inclusions) )
           section.list( "Extended Modules", format_module_list(info.extensions) )
+        end
+      end
+
+      if files?
+        content.section("Files") do |section|
+          section.list("Methods", format_file_list(info.files))
         end
       end
 
