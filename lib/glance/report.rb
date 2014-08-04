@@ -150,7 +150,7 @@ class Report
   end
 
   def shorten_file_path(path)
-    path =~ load_path_rx and $'.to_s
+    path =~ load_path_rx ? $'.to_s : path.to_s
   end
 
   def load_path_rx

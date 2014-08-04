@@ -47,7 +47,7 @@ class ModuleReport < Report
         end
       end
 
-      if files?
+      if files? and info.files.any?
         content.section("Files") do |section|
           section.list("Methods", format_file_list(info.files))
         end
