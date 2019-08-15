@@ -42,7 +42,7 @@ class MethodInfo
     filters.inject( methods ) do | list, filter |
       matcher, positive = filter
       positive ? list.select(&matcher) : list.reject(&matcher)
-    end.sort_by { |m| m.name }
+    end.sort_by { |m| m.name.to_s }
   end
 
   def file
