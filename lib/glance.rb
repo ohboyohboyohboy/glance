@@ -11,7 +11,7 @@ library_dir = File.expand_path( "..", __FILE__ )
 $:.unshift( library_dir ) unless $:.include?( library_dir )
 
 module Glance
-  VERSION = "1.2.2"
+  VERSION = "1.2.3"
   include MonoclePrint
 
   autoload :ColorSequence, "glance/color-sequence"

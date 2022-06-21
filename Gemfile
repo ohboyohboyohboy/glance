@@ -1,4 +1,4 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
-gem "ohboyohboyohboy-monocle-print", "~> 1.1"
+gem "monocle-print", "~> 1.1"
